@@ -6,7 +6,7 @@ terraform {
   }
 }
 provider "yandex" {
-  service_account_key_file     = "/home/laggy/authorized_key.json"
+  service_account_key_file     = "/home/laggy/authorized_key.json"  # ключ генерируем в консоли клауда, json копируем в корневую папку
   cloud_id  = "b1gihrb8e2lfh53p9raj"
   folder_id = "b1g8lkui6tenibogtiep"
   zone      = "ru-central1-b"
@@ -34,7 +34,7 @@ resource "yandex_compute_instance" "vm1" {
   }
 
     metadata = {
-    ssh-keys = "ubuntu:${file("~/.ssh/laggy-terraform-key.pub")}"
+    ssh-keys = "ubuntu:${file("~/.ssh/laggy-terraform-key.pub")}"  # на локальной машине генерим ключевую пару, .pub передаем на созданную ВМ (user: ubuntu)
   }
 provisioner "local-exec" {
   command = <<EOT
@@ -46,7 +46,7 @@ provisioner "local-exec" {
 }
 
 output "vm_ip" {
-  value = yandex_compute_instance.vm1.network_interface.0.nat_ip_address
+  value = yandex_compute_instance.vm1.network_interface.0.nat_ip_address     
 }
 
 
